@@ -15,21 +15,15 @@ const App = () => {
   const [hasMoreImages, setHasMoreImages] = useState(true);
 
   useEffect(() => {
-    if (query && page === 1) {
+    if (query && (page === 1 || page > 1)) {
       fetchImages(query, page);
     }
-  }, [query]);
-
-  useEffect(() => {
-    if (query && page > 1) {
-      fetchImages(query, page);
-    }
-  }, [page]);
+  }, [query, page]);
 
   const fetchImages = (query, page = 1) => {
     const API_KEY = '36044899-e18e2ff497f22a2f7cea9b850';
     const BASE_URL = 'https://pixabay.com/api/';
-    const perPage = 120;
+    const perPage = 12;
 
     setIsLoading(true);
 

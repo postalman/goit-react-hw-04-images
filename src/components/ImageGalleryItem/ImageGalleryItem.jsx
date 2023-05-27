@@ -2,43 +2,36 @@ import {
   StyledImageGalleryItem,
   StyledImageGalleryItemImage,
 } from 'components/ImageGalleryItem/ImageGalleryItem.styled';
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'components/Modal/Modal';
 import PropTypes from 'prop-types';
 
-class ImageGalleryItem extends React.Component {
-  state = {
-    showModal: false,
+const ImageGalleryItem = ({ image }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleImageClick = () => {
+    setShowModal(true);
   };
 
-  handleImageClick = () => {
-    this.setState({ showModal: true });
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
-  handleCloseModal = () => {
-    this.setState({ showModal: false });
-  };
-
-  render() {
-    const { image } = this.props;
-    const { showModal } = this.state;
-
-    return (
-      <React.Fragment>
-        <StyledImageGalleryItem onClick={this.handleImageClick}>
-          <StyledImageGalleryItemImage src={image.webformatURL} alt="" />
-        </StyledImageGalleryItem>
-        {showModal && (
-          <Modal
-            isOpen={showModal}
-            largeImageURL={image.largeImageURL}
-            onClose={this.handleCloseModal}
-          />
-        )}
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <StyledImageGalleryItem onClick={handleImageClick}>
+        <StyledImageGalleryItemImage src={image.webformatURL} alt="" />
+      </StyledImageGalleryItem>
+      {showModal && (
+        <Modal
+          isOpen={showModal}
+          largeImageURL={image.largeImageURL}
+          onClose={handleCloseModal}
+        />
+      )}
+    </React.Fragment>
+  );
+};
 
 export default ImageGalleryItem;
 

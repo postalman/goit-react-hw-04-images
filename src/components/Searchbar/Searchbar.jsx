@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyledSearchbar,
@@ -9,45 +9,39 @@ import {
 } from 'components/Searchbar/SearchBar.styled';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-class SearchBar extends React.Component {
-  state = {
-    query: '',
+const SearchBar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+
+  const handleInputChange = e => {
+    setQuery(e.target.value);
   };
 
-  handleInputChange = event => {
-    this.setState({ query: event.target.value });
+  const handleSubmit = e => {
+    e.preventDefault();
+    onSubmit(query);
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const { query } = this.state;
-    this.props.onSubmit(query);
-  };
+  return (
+    <StyledSearchbar>
+      <StyledSearchForm onSubmit={handleSubmit}>
+        <StyledSearchFormButton type="submit">
+          <StyledSearchFormButtonLabel>
+            <AiOutlineSearch />
+          </StyledSearchFormButtonLabel>
+        </StyledSearchFormButton>
 
-  render() {
-    const { query } = this.state;
-    return (
-      <StyledSearchbar>
-        <StyledSearchForm onSubmit={this.handleSubmit}>
-          <StyledSearchFormButton type="submit">
-            <StyledSearchFormButtonLabel>
-              <AiOutlineSearch />
-            </StyledSearchFormButtonLabel>
-          </StyledSearchFormButton>
-
-          <StyledSearchFormInput
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={query}
-            onChange={this.handleInputChange}
-          />
-        </StyledSearchForm>
-      </StyledSearchbar>
-    );
-  }
-}
+        <StyledSearchFormInput
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={query}
+          onChange={handleInputChange}
+        />
+      </StyledSearchForm>
+    </StyledSearchbar>
+  );
+};
 
 export default SearchBar;
 
